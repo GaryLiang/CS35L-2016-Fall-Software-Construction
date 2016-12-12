@@ -1,0 +1,100 @@
+1.To implement the transliterate program using the buffered I/O, 
+I first need to know how the tr works. So I typed "man tr" to see
+what transliterate program does and what is its format. After
+that, I tried the original program out to have a rough idea how
+should I implement this.
+There are several problems that I encountered and solved.
+
+	a. how do I get input from command line?
+	after I did some research, I found out the trick is 
+	actually at int main(), we can put two arguement.
+	int (int argc, char* argv[]),whcih argc is the arguement
+	count and argv is the string of arguements. To know
+	what are from and to, simply read from argv is fine
+	
+	b.structure of the code
+	first our program should get data from "from" and "to"
+	and then let constantly getting the characters from
+	stdin
+
+	c.how do I handle exceptional cases
+	there are several exceptional cases for this function
+	same characters in 'from'
+	different length between 'from' and 'to'
+	some exceptional characters like\,[
+
+with the getchar() function, the implementation is kinda easy
+once the structure is clear
+
+2.To implement the transliterate program using unbuffered I/O
+means we are using the system call instead of the process call.
+So most of the codes are the same except we are using read() and
+write() to get and out the std input and out put. for these
+functions, they both have descriptors, which is used to tell 
+whether the function is doing input or output. 
+I did not change much except using read() and write()
+
+3.
+In order to test out the performance of two different types of 
+transliterate program, we need to use strace. To use strace, I 
+need to know what it is and how to use it. So I type "man strace"
+and find out that strace is a program and give count of all the 
+system call and -o option allows me to put the output of the
+program into a file. To make sure I can see the difference, I
+make another program to create a very large file that contains
+10000000 bytes. When I run it with the buffered I/O tr, it finishes
+very fast and create a 80059 bytes system call file. while I run
+it with unbuffered I/O tr, I waited for like 5 minutes for it to
+finish the task and there was a moment I though my putty was crashed.
+I tried running with strace with both copying output to file 
+and to the terminal and it turns out that the system call 
+file that is created by buffered tr is much larger than the one 
+putting into the file. and the unbuffered one create the same 
+size file while still running very slow.
+
+
+ ./larg_input | strace -o strace_tr2b.txt ./tr2b abcde ABCDE >middle
+-rw-r--r-- 1 haoranz csugrad 5000000 Nov  4 22:57 middle
+-rw-r--r-- 1 haoranz csugrad   80059 Nov  4 22:57 strace_tr2b.txt
+
+
+ ./larg_input | strace -o strace_tr2u.txt ./tr2u abcde ABCDE >middle
+-rw-r--r-- 1 haoranz csugrad   5000000 Nov  4 23:13 middle
+-rw-r--r-- 1 haoranz csugrad 440001765 Nov  4 23:13 strace_tr2u.txt
+
+
+ ./larg_input | strace -o strace_tr2b.txt ./tr2b abcde ABCDE
+-rw-r--r-- 1 haoranz csugrad    373083 Nov  4 23:18 strace_tr2b.txt
+
+ ./larg_input | strace -o strace_tr2u.txt ./tr2u abcde ABCDE
+-rw-r--r-- 1 haoranz csugrad 440001765 Nov  4 23:25 strace_tr2u.txt
+
+
+4.I type "man time' to see how to use time command
+after that run the program of with the time command
+I see there is a huge speed difference of these two
+programs. If we compare the time lapsed, unbuffered takes about 
+20 times longer than the buffered! While the unbuffered one also 
+takes up almost all the cpu space to run the program. The reason
+behind this is because the buffered library function invoke system
+calls indirectly,and less system calls
+ but since the library function is also in the process,
+that means the system does not switch between user mode and 
+kernel mode that often and that saves a lot of time because
+whenever a system call has been made, the process is interrupted,
+OS take control of CPU, perform requested actions,
+save its state and give control back to user process,
+that takes a huge amount of time. While buffered I/O decreases
+the number of read/write system calls and the corresponding 
+overhead
+
+[haoranz@lnxsrv05 ~/assignment6]$ ./larg_input |time ./tr2b abcde ABCDE > middle
+0.21user 0.00system 0:00.30elapsed 72%CPU (0avgtext+0avgdata 448maxresident)k
+0inputs+9768outputs (0major+135minor)pagefaults 0swaps
+
+[haoranz@lnxsrv05 ~/assignment6]$ ./larg_input |time ./tr2u abcde ABCDE > middle
+0.36user 4.58system 0:05.02elapsed 98%CPU (0avgtext+0avgdata 404maxresident)k
+0inputs+9768outputs (0major+124minor)pagefaults 0swaps
+
+
+

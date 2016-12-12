@@ -1,0 +1,67 @@
+./larg_input | time ./sfrob
+./larg_input | time ./strobu
+
+n is how many times the amount of input compared with n=1
+for the base case when n =1 the amount of input is 55 bytes 
+n = 1
+sfrob: Comparisons: 17
+ 0.00user 
+0.00system 
+0:00.00elapsed 
+0%CPU (0avgtext+0avgdata 492maxresident)k
+32inputs+0outputs (0major+146minor)pagefaults 0swaps
+
+sfrobu: Comparisons: 17 
+0.00user 
+0.00system 
+0:00.00elapsed 
+0%CPU (0avgtext+0avgdata 468maxresident)k
+0inputs+0outputs (0major+140minor)pagefaults 0swaps
+
+n = 10000
+sfrob: Comparisons: 1140594
+0.08user 
+0.00system 
+0:00.26elapsed 
+35%CPU (0avgtext+0avgdata 10488maxresident)k
+32inputs+0outputs (0major+2657minor)pagefaults 0swaps
+
+sfrobu: Comparisons: 1140594
+0.08user 
+0.55system 
+0:00.64elapsed 
+99%CPU (0avgtext+0avgdata 10472maxresident)k
+0inputs+0outputs (0major+2652minor)pagefaults 0swaps
+
+n = 15000
+sfrob: Comparisons: 1775013
+0.12user 
+0.01system 
+0:00.37elapsed 
+36%CPU (0avgtext+0avgdata 15460maxresident)k
+0inputs+0outputs (0major+3901minor)pagefaults 0swaps
+
+sfrobu: Comparisons: 1775013
+0.13user 
+0.86system 
+0:01.00elapsed 
+99%CPU (0avgtext+0avgdata 15456maxresident)k
+0inputs+0outputs (0major+3897minor)pagefaults 0swaps
+
+
+As we can see, when input amount is small, there are not that 
+many difference between the two
+but if I increase the number to 10000 times larger input,
+unbuffered one not only takes longer time but also use up 
+a lot of cpu space when 
+
+when I run the shell script 
+./larg_input |time ./sfrobs
+0.14user 
+0.02system 
+0:00.34elapsed 
+46%CPU (0avgtext+0avgdata 10088maxresident)k
+0inputs+0outputs (0major+1741minor)pagefaults 0swaps
+
+from the result, as we can see that sfrobs is also pretty fast but
+still slower than sfrob and takes up more cpu space

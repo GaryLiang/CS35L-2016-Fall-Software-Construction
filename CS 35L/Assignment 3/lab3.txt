@@ -1,0 +1,87 @@
+1. wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-7.6.tar.gz ENTER
+get the Coreutils 7.6 tar.gz file
+
+2.tar -xzvf coreutils-7.6.tar.gz ENTER
+untar the file
+
+3.mkdir coreutils ENTER
+create a directory to install the program
+
+4../configure --prefix=/u/cs/ugrad/haoranz/assignment3/coreutils/ ENTER
+check the machine settings before installation and create Makefile
+
+5.make ENTER
+compile all the program code and create executables in 
+current directory
+
+6.make install ENTER
+install the programs
+
+7.cd .. ENTER
+back to previous directory and we can see that coreutils has been
+installed in that file
+
+8.cd coreutils/bin/ ENTER
+  ls ENTER
+go into the bin then we can find the ls executable file that actually store the code
+for ls command
+
+9.[haoranz@lnxsrv03 ~/assignment3/coreutils/bin]$./ls -l /bin/bash ENTER
+reproduce the bug
+-rwxr-xr-x 1 root root 941880 2015-12-22 01:12 /bin/bash
+
+10. cd /u/cs/ugrad/haoranz/assignment3/coreutils-7.6/src/ ENTER
+change directory to the source code
+
+11.touch brady.patch
+create a patch file in the /src/
+
+12.emacs brady.patch
+copy brady's patch file to brady.patch
+
+13.patch < brady.patch
+apply patch
+patching file src/ls.c
+Hunk #1 succeeded at 2013 (offset -1 lines).
+Hunk #2 succeeded at 2028 (offset -1 lines)
+
+14. cd .. ENTER
+    make
+go back to /coreutils-7.6/
+recompile the program 
+
+15.cd src ENTER
+go back to the src
+
+16.[haoranz@lnxsrv03 ~/assignment3/coreutils-7.6/src]$./ls -l /bin/bash
+the ls in the test case works
+execute the recompiled ls and the issue is fixed:
+-rwxr-xr-x 1 root root 941880 Dec 22  2015 /bin/bash
+
+17.cd ../..
+go back to assignment3
+[haoranz@lnxsrv03 ~/assignment3]$./coreutils/bin/ls -l /bin/bash
+-rwxr-xr-x 1 root root 941880 2015-12-22 01:12 /bin/bash
+the ls in the installed case still does not work
+
+18. touch hello
+create a recently modified file
+[haoranz@lnxsrv03 ~/assignment3]$./coreutils-7.6/src/ls -l hello
+-rw-r--r-- 1 haoranz csugrad 8 Oct 10 22:02 hello
+ls command works properly for recently modified file
+
+19.touch -t 201510102208.00 hihi
+create a file that is modified a year ago
+
+20.[haoranz@lnxsrv03 ~/assignment3]$./coreutils-7.6/src/ls -l hihi
+-rw-r--r-- 1 haoranz csugrad 0 Oct 10  2015 hihi
+ls command in the test case works properly
+
+Q1: It is necessary to delete one line of "case_long_iso_time_style:"
+because if someone wants to use the long iso time style 
+they would only run in to the empty case which is the line
+above instead of giving the long iso time style
+
+Q2: The long_time_format does not depends on user's locale_formate
+anymore
+

@@ -1,0 +1,197 @@
+1.
+mkdir assignment4
+cd assignment4
+mkdir gitroot
+cd gitroot
+create a directory for diffutils
+
+git clone git://git.savannah.gnu.org/diffutils.git
+get the copy of Diffutils repository
+
+2.
+git log > git-log.txt
+get a log of changes and put the result
+into git-log.txt
+
+3.
+git tag > git-tags.txt
+generates a list of tags and put the 
+result into git-tags.txt
+
+4.
+touch quote-patch.txt
+emacs git-log.txt
+C-s maint: quote
+62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f
+
+git show 62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f > quote-patch.txt
+
+copy the coresponding commit number
+use git show to put the diff from that commit
+to quote-patch.txt
+
+5.
+emacs git-tags.txt
+git checkout v3.0
+HEAD is now at 022cd5c... version 3.0
+
+check the name for version 3.0 and 
+check out version 3.0
+
+6.
+patch -p1 < quote-patch.txt
+
+It is unable to find the file and ask me to 
+type the name of the file to patch:
+I type ENTER and y to skip
+and then it shows patching file NEWS
+Reversed patch detected  
+Assume -R I typed n
+Apply anyway I typed n
+and then "file to patch" shows two times
+and I kept typing ENTER and y
+at the end it shows 
+
+Hunk #3 succeeded at 202 (offset -13 lines).
+patching file src/diff3.c
+Hunk #1 succeeded at 35 (offset 1 line).
+Hunk #2 succeeded at 159 (offset 1 line).
+Hunk #3 succeeded at 316 (offset 1 line).
+Hunk #4 succeeded at 351 (offset 1 line).
+Hunk #5 succeeded at 412 (offset 1 line).
+Hunk #6 FAILED at 433.
+Hunk #7 succeeded at 460 with fuzz 2 (offset -18 lines).
+Hunk #8 succeeded at 1275 (offset -18 lines).
+Hunk #9 succeeded at 1475 (offset -18 lines).
+1 out of 9 hunks FAILED -- saving rejects to file src/diff3.c.rej
+patching file src/dir.c
+Hunk #1 succeeded at 84 (offset -1 lines).
+Hunk #2 succeeded at 125 (offset -1 lines).
+Hunk #3 succeeded at 154 (offset -1 lines).
+Hunk #4 succeeded at 234 (offset -1 lines).
+patching file src/ifdef.c
+patching file src/io.c
+patching file src/sdiff.c
+Hunk #2 succeeded at 92 (offset 1 line).
+Hunk #3 succeeded at 175 (offset 23 lines).
+Hunk #4 succeeded at 230 (offset 17 lines).
+Hunk #5 succeeded at 286 (offset 17 lines).
+Hunk #6 succeeded at 572 (offset 13 lines).
+Hunk #7 succeeded at 747 (offset 41 lines).
+patching file src/side.c
+patching file src/system.h
+Hunk #2 succeeded at 105 (offset 6 lines).
+patching file src/util.c
+Hunk #4 succeeded at 190 with fuzz 2.
+Hunk #8 succeeded at 650 (offset -27 lines).
+patching file tests/help-version
+Hunk #1 succeeded at 75 (offset 1 line).
+Hunk #2 succeeded at 85 (offset 1 line).
+Hunk #3 succeeded at 96 (offset 1 line).
+Hunk #4 succeeded at 108 (offset 1 line).
+Hunk #5 succeeded at 140 (offset 1 line).
+Hunk #6 succeeded at 188 (offset 1 line).
+ 
+7.
+git status
+it gives me a list of changed but not updated files and a list of untracked file
+
+8.
+learnt the use of vs-diff, vc-revert and diff-apply-hunk
+
+9.
+emacs NEWS
+C-x v =
+C-x v u 
+yes ENTER
+C-x C-c
+
+similar commands for the rest of non c files
+
+emacs src/analyze.c
+C-x v =
+C-c 
+C-x o
+C-c C-a
+
+similar commands for the rest of c files
+but just need to check whether that hunk
+is comment or not
+
+10.
+emacs src/diff3.c.rej
+C-x C-f
+diff.c ENTER
+
+start changing ` to ' by going over the lines
+between files using C-x b ENTER
+similar process applied to diff.c
+
+11.
+remove all the untracked files
+
+12.
+git status
+git diff > quote-3.0-patch.txt
+
+put the patch into the file quote-3.0-patch.txt
+
+13.
+export PATH=/usr/local/cs/bin:$PATH
+./boostrap
+touch diffutils-gets.diff
+emacs diffutils-gets.diff
+copy the patch online
+patch -p0 < diffutils-gets.diff
+./configure
+make
+makecheck
+
+diff . -
+diff: cannot compare '-' to a directory
+
+diff --help
+FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'.
+
+
+since the original bin file does not contain the help2man,
+I need to get it from cs/bin file to the path 
+run boostrap
+craete diffutils-gets.diff file and copy the additional patch
+since linux server 07 does not have gets
+apply the gets patch
+run configure to figure out the settings
+install the program
+test the new version to see whether the new diff works correctly
+
+14.
+mkdir diffutils-3.0
+mkdir diffutils-3.0-patch
+cp -r another4/gitroot/diffutils/src assignment4/gitroot/diffutils-3.0
+cp -r assignment4/gitroot/diffutils/src assignment4/gitroot/diffutils-3.0-patch/
+./diffutils/src/diff -pru diffutils-3.0/src diffutils-3.0-patch/src > quote-3.0-test.txt
+
+make two directories
+copy the source code from two different version
+to different directories
+use the diff to compare the difference of the source code of two directories and put the output
+into quote-3.0-test.txt
+
+15.
+diff quote-3.0-test.txt diffutils/quote-3.0-patch
+
+two files are not identical
+it seems that some functions have been changed
+but at the same time it shows that the issue 
+of ` and ' have been fixed
+
+
+
+
+
+
+
+
+
+
+

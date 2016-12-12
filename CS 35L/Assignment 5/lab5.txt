@@ -1,0 +1,186 @@
+1.
+mkdir assignment5
+
+create assignment5 directories
+
+2.
+cd assignment5
+wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/coreutils-with-bug.tar.gz
+tar -zxvf coreutils-with-bug.tar.gz
+
+download the tar.gz file 
+and extract the file
+
+3.
+./configure
+make
+
+get the error showing that
+In file included from utimecmp.c:41:
+utimens.h:2: error: conflicting types for 'futimens'
+/usr/include/sys/stat.h:374: note: previous declaration of 'futimens' was here
+make[3]: *** [utimecmp.o] Error 1
+make[3]: Leaving directory `/w/home.08/cs/ugrad/haoranz/assignment5/coreutils-with-bug/lib'
+make[2]: *** [all] Error 2
+make[2]: Leaving directory `/w/home.08/cs/ugrad/haoranz/assignment5/coreutils-with-bug/lib'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/w/home.08/cs/ugrad/haoranz/assignment5/coreutils-with-bug'
+make: *** [all] Error 2
+
+4.
+wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/coreutils.diff
+patch -p0 < coreutils.diff
+patching file lib/utimens.c
+patching file lib/utimens.h
+patching file src/copy.c
+patching file src/tee.c
+patching file src/touch.c
+
+./configure
+make
+
+after applying the coreutils.diff patch,
+install error is fixed
+
+5.
+tmp=$(mktemp -d)
+cd $tmp
+touch -d '1918-11-11 11:00 GMT' wwi-armistice
+touch now
+sleep 1
+touch now1
+cd
+./assignment5/coreutils-with-bug/src/ls -lt $tmp
+total 0
+-rw-r--r-- 1 haoranz csugrad 0 1918-11-11 03:00 wwi-armistice
+-rw-r--r-- 1 haoranz csugrad 0 2016-10-23 19:02 now1
+-rw-r--r-- 1 haoranz csugrad 0 2016-10-23 19:02 now
+
+run the ls in coreitils-with-bug and reproduce the 
+bug
+
+6.
+emacs ls.c
+
+look up the list of functions at the beginning if ls.c
+and then I found that 
+static void sort_files(void); looked suspicious since
+it directly related to the printing order of 
+the files
+
+M-x linum-mode
+open up the line number mode so i can setup break point 
+at the lines i want
+
+C-x 3
+M-x gdb
+gdb --anotate3 ./ls
+split the screen into 2
+open gdb in the other window 
+
+C-x o
+M-x imenu
+sort_files
+
+I look up the function and find out that the first switch 
+statement is to tell what type of thing to sort. Since we have
+-t option, I look into the time_type, the second switch satement
+contains conditions for ctie,mtime and atime, without looking
+the whole function, I set up 3 breakpoints at line 2972
+2975 and 2978 by using
+break ls.c:2972
+break ls.c:2975
+break ls.c:2978
+break ls.c:3000
+break ls.c:1259
+break ls.c:2366
+break ls.c:2371
+break ls.c:1260
+break ls.c:1301
+break ls.c:2884
+and I saw red B's appears on my ls.c screen
+
+info b
+list all the breakpoints I set in gdb
+
+run -lt /tmp/tmp.6F7VGV43uN
+Breakpoint 2, sort_files () at ls.c:2975
+therefore we can conclude that the function is sorting
+mtime
+
+print sort_reverse
+$1 = false
+we can conclude that it is assigning 
+compare_mtime to func
+
+at breakpoint line:2371
+print fils[0]
+$5 = {name = 0x61da00 "wwi-armistice", stat = {st_dev = 2054, st_i\
+no = 221, st_nlink = 1, st_mode = 33188, st_uid = 15920, st_gid = \
+130, __pad0 = 0, st_rdev = 0, st_size = 0, st_blksize = 4096, st_b\
+locks = 0, st_atim = {tv_sec = -1613826000, tv_nsec = 0}, st_mtim \
+= {tv_sec = -1613826000, tv_nsec = 0}, st_ctim = {tv_sec = 1477605\
+929, tv_nsec = 602250984}, __unused = {0, 0, 0}}, linkname = 0x0, \
+linkmode = 0, linkok = false, filetype = normal}
+
+as we can see the time is negative, which means
+a digits overflow happens
+
+So we know something may go wrong in the compare_mtime
+function
+So I go to line 2884 found compare_mtime calls
+cmp_mtime
+
+I found timespec_cmp may be a problem
+so I tried to look up timespec in the code
+but I did not find the function
+so I guess it may be in some other files
+so I look up in the beginning of the code
+to find the relavent header files but fail a gain
+
+I go back to the upper directory
+do
+grep -r "timespec_cmp" ~/assignment5/coreutils-with-bug
+
+and found the header file called timespec.h
+in /lib/
+
+cp timespec.h old_timespec.h
+
+copy the timespec.h to another file so we can create
+diff file later on
+I go into the file and change the timesepc_cmp function
+change int diff to long long int diff
+and give a clear comparison for return value
+1 for >0, 0 for =0 and -1 for <0
+
+after that I do 
+./configure
+make
+
+and try
+./src/ls -lt /tmp/tmp.6F7VGV43uN
+
+and it works properly 
+
+diff -u old_timespec.h timespec.h > lab5.diff
+
+create the diff file
+
+
+7.
+Try run the program on seasnet linux server
+./ls -lt wwi-armistice  now1 now
+-rw-r--r-- 1 haoranz csugrad 0 2054-12-17 09:28 wwi-armistice
+-rw-r--r-- 1 haoranz csugrad 0 2016-10-23 19:34 now1
+-rw-r--r-- 1 haoranz csugrad 0 2016-10-23 19:34 now
+
+it shows that the file wwi-armistice is actually
+createed at year 2054, which is not possible because
+right now is 2016
+When we create the file on linux machine, it is 
+using the Unix time which mean the time the file
+created cannot be older than 1970 Jan 1st
+But on MSDN, the time is just simple time_t
+structure that contains a 32 bit number, so it can be
+anytime you want

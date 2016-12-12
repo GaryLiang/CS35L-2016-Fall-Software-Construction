@@ -1,0 +1,159 @@
+1.html get the page wget
+
+2.extract words
+
+3.upper to lower
+
+4. "`" -> "'"
+
+5.If words separated by space or "," change to different words
+
+6.reject words with non Hawaiian
+
+7.tr 
+
+, single char
+? single char
+* multiple char
+[] range/list
+^ beginning with
+$ ending with
+
+[Ww]indow
+Window/window
+
+[ ] poxix
+
+[: :]
+
+tr [:upper:] [:lower:]
+
+:space:
+:contorl:
+:alnum:
+
+cat < myfile.txt
+
+spellcheck < myfile.html : give the content of myfile as input
+spellcheck > ans.txt
+spellcheck >> ans.txt : append
+
+spellcheck 2> : give command to the file
+
+
+
+a = $1
+a = 5
+
+store command 
+echo "  "
+echo '  ' 
+echo `  `
+
+echo 'value is $a' : value is $a
+
+echo "value is $a" : value is 5
+
+echo `ls`
+
+loops
+
+
+
+
+1. while
+2.for
+3.If
+
+
+while [condition]
+do
+
+
+
+done
+
+for expression
+do 
+
+done
+
+if [condition]
+then
+
+elseif
+
+fi
+
+
+temp= ls
+
+for f in $temp
+do 
+	echo $f
+done
+
+count=$1
+
+while [$count -gt 0]
+do
+	echo $count
+	let count=count-1
+done
+
+
+
+
+temp= ls
+
+for f in $temp
+do 
+	if [ -f $f ]
+	then
+		echo "Is a file"
+	else
+		echo $f
+	fi
+done
+
+
+
+declare -a variable name : declare an array
+
+declare -g variable name : global
+
+iterate through array
+
+for a in "${array[@]}"
+	echo ${#array[@]}    #:length
+	${#array[n*]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

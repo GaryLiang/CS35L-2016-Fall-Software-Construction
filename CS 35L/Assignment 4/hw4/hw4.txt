@@ -1,0 +1,91 @@
+1.
+create hw4.txt
+
+2.
+git checkout v3.0 -b quote
+
+check out version 3.0 into new branch called "quote"
+
+3.
+patch -p1 < quote-3.0-patch.txt
+
+patching file src/cmp.c
+patching file src/diff.c
+patching file src/diff3.c
+patching file src/dir.c
+patching file src/sdiff.c
+patching file src/util.c
+
+patch the file
+
+4, 5.
+emacs 
+C-x 4 a
+typed in some changelog
+2016-10-19  Haoran Zhang  <haoranz@lnxsrv07.seas.ucla.edu>
+
+        *
+
+        * patched files:
+        src/cmp.c
+        src/diff.c
+        src/diff3.c
+        src/dir.c
+        src/sdiff.c
+        src/util.c
+        change ` to ' for source code
+        keep the comments unchanged as `
+
+        * hello
+
+use emacs to add some change logs
+
+6.
+git add .
+git commit -F ChangeLog
+
+add those changes through git and 
+commit those changes
+
+7.
+git format-patch -1 --stdout > formatted-patch.txt
+make a formatted patch through git
+
+8.
+I send my patch to my partner
+Peiyao Sun
+804672005
+
+git checkout v3.0 -b test
+git am < formatted-patch.txt
+export PATH=/usr/local/cs/bin:$PATH
+./boostrap
+./configure
+make 
+make check
+
+./src/diff . -
+./src/diff --help
+
+check out version 3.0 to another branch
+apply my partner's patch by using git am
+fix the help2man issue
+install the program
+test it
+
+9.
+make distdir
+
+check whether changelog works
+it show the changelog properly
+
+10.
+download and install Xming
+open putty with X11 enabled
+
+cd ~eggert/src/gnu/emacs
+gitk
+
+a user interface popped up from Xming server
+find the appropriate branch merge according to 
+the date and take screen shot

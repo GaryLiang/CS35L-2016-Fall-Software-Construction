@@ -1,0 +1,119 @@
+1.cd /usr/share/dict/ ENTER
+change the directory
+
+2.sort -o /u/cs/ugrad/haoranz/words words ENTER
+sort the file words and put it into my own working directory
+
+3.wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/assign2.html ENTER
+copy the web page to my own working directory
+
+4.cp assign2.html assign2.txt ENTER 
+change the html file to txt file
+
+5.tr -c 'A-Za-z' '[\n*]'<assign2.txt ENTER
+this command print out all the consequtive characters 
+in the alphabetical range in assign2.txt and the number
+of newlines is the number of characters that don't belong
+to the alphabet but they are in the middle of two alphabet
+letters
+
+6.tr -cs 'A-Za-z' '[\n*]'<assign2.txt ENTER
+this command print out all the consequtive characters 
+in the alphabetical range in assign2.txt without
+the space between each complete set of characters in the
+text file 
+
+7.tr -cs 'A-Za-z' '[\n*]'<assign2.txt | sort ENTER
+print out all the complete alphabet sets in alphabetical 
+order
+
+8.tr -cs 'A-Za-z' '[\n*]'<assign2.txt | sort -u ENTER
+print out all the complete alphabet sets in alphabetical 
+order without repetition
+
+9.tr -cs 'A-Za-z' '[\n*]'<assign2.txt | sort -u | comm - words ENTER
+compare two files and for the  first column it prints out
+the letter sets that are unique in words, the second column
+prints out the letter sets that are unique in assign2.txt
+the third colomn prints out the letter sets thatare common
+in both files
+
+10.tr -cs 'A-Za-z' '[\n*]'<assign2.txt | sort -u | comm -23 - words ENTER
+print out the unique letter sets in assign2.txt
+
+11.wget http://mauimapp.com/moolelo/hwnwdseng.htm ENTER
+get the English to Hawaiian
+
+12.touch buildwords.sh ENTER
+create a buildwords.sh file
+
+13.touch hword ENTER
+create a hword file
+
+14. emacs buildwords.sh ENTER
+open buildwords.sh
+
+15.
+#!/bin/bash
+sed -e 's/<[^>]*>//g' $1|
+ grep -v -i '[cbdfgjqrstvxyz.]'|
+ tr ',' '\n'| sed "s/\`/\'/g"|tr -d '\ ' |
+ tr '[:upper:]' '[:lower:]' |
+ sort -u
+exit 0
+
+
+use the bash to execute the script
+
+use sed -e 's/<[^>]*>//g' hwnwdseng.txt
+to replace all the < > with nothing
+
+use grep -v -i '[cbdfgjqrstvxyz]' to get rid of
+the words that have those characters in them
+
+use tr -d to delete the space
+change upper case letters to lower case
+
+use sort -u to sort everything and get
+rid of the blanks
+
+when I was trying to do:
+sed s/"`"/"'"/g
+it gives me error when the script is executed
+saying that "unexpected EOF" while looking
+for "`" therefore I cannot change "`" to "'"
+then I found out the character for ` is \` and ' is \'
+
+16.tr -cs 'A-Za-z' '[\n*]' <hword| sort -u | comm -23 - words
+compare the words file with the hword and it shows what words belong to 
+Hawaiian instead of English
+
+17.tr -cs 'A-Za-z' '[\n*]' <assign2.txt|tr '[:upper:]' '[:lower:]' | sort -u | comm -12 - hword
+compare with the webpage there are 6 misspelled English as Hawaiian 
+i make name no wiki
+and halau and kula are misspelled Hawaiian as English
+
+18.tr -cs 'A-Za-z' '[\n*]' <assign2.txt|tr '[:upper:]' '[:lower:]' | sort -u | comm -23 - words| wc -l
+it counts the number of words found in the web but not in the words file
+there are 33 words not found in words file
+
+19.tr -cs 'A-Za-z' '[\n*]' <assign2.txt|tr '[:upper:]' '[:lower:]' | sort -u | comm -23 - hword| wc -l
+it counts the number of words found in the web but not in the hword file
+there are 404 words not found in hword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+1. [haoranz@lnxsrv06 ~]$ man man : find the options at manual    
+   [haoranz@lnxsrv06 ~]$ man -k [some word]
+
+   First type "man man" to see all the all the options
+   for man command and we find that -k can be used to give
+   a short manual page description and display any matches,
+   then we can type the "man -k" command to print out 
+   all commands that had a specific word in it
+
+2. [haoranz@lnxsrv06 ~]$ whereis cp 
+   [haoranz@lnxsrv06 ~]$ whereis wc  
+
+   whereis is the command that can locate the binary, source,
+   and manual page files for a command
+   so by typing the command "whereis cp" and 
+   "whereis wc" we can find out the location of the file
+   and it turns out that the cp command is in /usr/bin/cp/
+   and the wc command is in /usr/bin/wc/
+
+3. [haoranz@lnxsrv06 ~]$ find -name ? -executable
+
+   Use "man find" to check out the "find" command, -name ? 
+   indicates to find the file with one character
+   -executable indicates to find the executable file
+   under the current directory 
+
+4. [haoranz@lnxsrv06 ~]$ man -k symbolic\ :look up commands related to symbolic links 
+   [haoranz@lnxsrv06 ~]$ readlink /usr/bin/emacs
+
+   First type in "man -k symbolic" to find all the commands 
+   that are related to symbolic link and we find "readlink"
+   that can read the content of the symbolic link. And then 
+   we type "readlink /usr/bin/emacs/" to look into the content
+   of the symbolic link and it displays the actual file directory
+   of the executable file which is at
+   /etc/alternatives/emacs
+
+5. 
+   [haoranz@lnxsrv06 ~]$ chmod g+s Lecture_1.txt
+   [haoranz@lnxsrv06 ~]$ chmod o-x Lecture_1.txt
+
+   we can type "ll file_name" to check permission of the file
+   and then type "man chmod" to find what g, s and o means,
+   the type" chmod g+s file_name" and "chmod o-x file_name"
+   g+s: Users who are members of the group are given the permission
+        to set users or group ID on execution 
+   o-x: The permission to execute the file will be removed for
+        those users who are not the owner of the file or members of the group
+   
+6. [haoranz@lnxsrv06 ~]$ man find
+   [haoranz@lnxsrv06 ~]$ find /u/cs/ugrad/  -type f -mtime -21
+
+   type "man find" to check the options for "find" command
+   -mtime n search the file modified in n days, 3 weeks is 21 days
+   -type f search for regular files
+   find -type f -mtime -21 
+
+7. [haoranz@lnxsrv06 ~]$ find /u/cs/ugrad/  -type d -mtime -21
+   
+   -type d is the search for the directories
+
+8. [haoranz@lnxsrv06 ~]$ find /usr/bin  -type l | wc -l
+   264
+
+9. [haoranz@lnxsrv05 ~]$ find /usr/lib/ -type f -printf '%T+ %p\n' | sort | head -n 1
+   2003-08-29+12:56:11.0000000000 /usr/lib/x86_64-redhat-linux5E/include/bits/stdio-lock.h
+
+
+10.[haoranz@lnxsrv06 ~]$ man locale 
+   The locale command gets data from current locale environment
+
+11. C-h ? a sort 
+
+12. C-h ? c :display the command name run by the given key sequence
+
+    C-M-a runs the command beginning-of-defun
+    C-M-b runs the command backward-sexp
+    C-M-c runs the command exit-recursive-edit
+    C-M-d runs the command down-list
+    C-M-e runs the command end-of-defun
+    C-M-f runs the command forward-sexp
+    C-M-h runs the command mark-defun
+
+13. C-h ? k: display the full documentation of the key sequence
+    C-g runs the command keyboard-quit, which is an interactive compiled Lisp function
+
+14. C-h ? f
+    yank     
+    yank is an interactive compiled Lisp function.
+    Reinsert the last stretched of killed text
+
+15. ls -l /usr/bin/
+    C-x d /usr/bin/
+    ls -l shows whether a file is executable file ,  
+    link or a directory by using the colors
+    dired shows how much space is used and how much space is still available
+    dired is also able to display the "." file and ".." file

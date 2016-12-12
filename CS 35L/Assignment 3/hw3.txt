@@ -1,0 +1,21 @@
+Q3.
+[haoranz@lnxsrv03 ~/assignment3/hw3]$ python2 randline.py /dev/null 
+Traceback (most recent call last):
+  File "./randline.py", line 70, in <module>
+    main()
+  File "./randline.py", line 64, in main
+    sys.stdout.write(generator.chooseline())
+  File "./randline.py", line 34, in chooseline
+    return random.choice(self.lines)
+  File "/usr/lib64/python2.6/random.py", line 261, in choice
+    return seq[int(self.random() * len(seq))]  # raises IndexError if seq is empty
+IndexError: list index out of range
+
+
+Q4.
+[haoranz@lnxsrv03 ~/assignment3/hw3]$  /usr/local/cs/bin/python3 randline.py /dev/null
+  File "randline.py", line 65
+    except IOError as (errno, strerror):
+                      ^
+SyntaxError: invalid syntax
+python3 recognized it as syntax error

@@ -1,0 +1,84 @@
+1.
+sort --version ENTER
+sort (GNU coreutils) 8.22
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Mike Haertel and Paul Eggert.
+
+check whether the sort version is later than 8.6 so it supports parallel programming
+
+2.
+cat /dev/urandom | od -An -tf -N80000000 > large
+
+create the file large that contains 10000000 double precision floating
+point numbers 
+-An disables the address output
+-tf specifying the type of data is float with double precision
+since floating point with double precision number is 8 byte
+therefore we need to create 8000000 bytes to hold all 10000000 numbers
+put output into large and the format of numbers in large is:
+a b
+c d
+.
+.
+.
+
+3.sed -i 's/\s/\n/g' large
+  sed -i '/^$/d' large
+In order to make every number has one line
+we need to use sed -i option to edit files in place
+'s/\s/\n/g' is to replace all the space to new line
+the output has format
+a
+
+b
+
+c
+
+d
+.
+.
+.
+
+so we need to delete the new line characters in empty lines.
+'/^$/d' is to delete empty lines, ^ means the start of line and
+$ means the end of the line 
+
+4
+No parallel:
+time -p sort -g large > /dev/null
+real 37.90
+user 201.00
+sys 0.53
+
+for parallel program, there is an option --parallel = N
+to assign the thread numbers to it
+
+time -p sort --parallel=1 -g large > /dev/null
+real 196.54
+user 196.22
+sys 0.31
+
+time -p sort --parallel=2 -g large > /dev/null
+real 104.61
+user 200.10
+sys 0.35
+
+time -p sort --parallel=4 -g large > /dev/null
+real 59.21
+user 199.45
+sys 0.41
+
+time -p sort --parallel=8 -g large > /dev/null
+real 39.44
+user 213.97
+sys 0.55
+
+As we can see when the program is running 
+under parallel as 8 threads the time it takes is almost
+the same as the original command that we did not specify 
+parallelism, which means the original command
+is already running with parallel.

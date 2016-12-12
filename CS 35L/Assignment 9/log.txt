@@ -1,0 +1,83 @@
+
+1.
+ubuntu@ubuntu:~$ dpkg --get-selections | grep openssh
+openssh-client   				 install
+
+lab environment set up
+make sure that openssh-server and openssh-client are installed
+
+2.
+sudo apt-get update
+sudo apt-get install openssh-server
+
+since only openssh-client is installed we need to install
+openssh-server
+
+server:
+3.
+ubuntu@ubuntu:~$ ssh-keygen
+
+generate public key and private key
+
+4.
+ubuntu@ubuntu:~$ sudo useradd -d /home/Lenovo -m peiyaosun
+
+create a home directory name " Lenovo" to store all the user directories
+and create user account peiyaosun
+
+5.
+ubuntu@ubuntu:~$ sudo passwd peiyaosun
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+
+create a password for account peiyaosun
+
+6.
+ubuntu@ubuntu:/home/Lenovo$ sudo mkdir .ssh
+ubuntu@ubuntu:/home/Lenovo$ sudo chown -R peiyaosun .ssh
+ubuntu@ubuntu:/home/Lenovo$ sudo chmod 700 .ssh
+
+create .ssh directory for new user
+and change ownership and permission on .ssh directory
+
+7.
+ubuntu@ubuntu:/home/Lenovo$ sudo nano /etc/ssh/sshd_config
+
+disable password based authentication
+
+8.
+ubuntu@ubuntu:/home/Lenovo$ ifconfig
+
+record the ip address of the server
+
+client:
+9.
+ubuntu@ubuntu:~$ ssh-keygen
+
+generate public and private keys
+
+10.
+ubuntu@ubuntu:~$ ssh-copy-id -i haoranzhang@10.97.85.117
+
+
+11.
+ubuntu@ubuntu:~$ ssh-add
+
+add private key to authetication agent
+
+12.
+ubuntu@ubuntu:~$ ssh haoranzhang@10.97.85.117
+
+ssh to my partner's server
+
+13.
+$ touch hello
+
+I successfully created a file called "hello"
+
+I used a mac book to ssh into my own server and
+it works too!
+
+
+

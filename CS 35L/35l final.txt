@@ -1,0 +1,400 @@
+open source: free, everyone can contribute it to it
+
+linux: 
+kernel:
+	between hardware and software core
+shell
+	front end interact with os 
+	run program
+	shell must be command land
+
+anything in os is either file or process
+
+file: directories, flat file, application file 
+file: static
+process: dynamic part of OS, program execution 
+
+Important commands:
+ls, ll, ls -l ll-> alias: no man entry
+cat: concatenate: cat file the content of the file
+cat > file
+cat >>file concatinate
+touch" create file update timestamp
+pwd: print the working directory
+passwd
+cd ..  cd ~
+
+absolute path vs relative path
+absolute path: with respect to root directory
+relative path: the path of particular file in the current directiry
+
+mkdir
+date
+time measure execution time of the program
+echo print out whatever pass to the arguement 
+chmod change permission 
+
+file permission1. creates -> owner of the file
+
+user group others 
+u g o 
+
+permissions: r read
+	     w write
+	     x execute
+
+
+Octa:
+chomod 777 
+first digit for the user
+then group then other
+
+chmod 600
+6 == 110 
+read and write perimission for user
+
+u+r
+o+r
+g+r
+u-r
+
+A created file a.txt
+root 
+sudo chmod 
+
+locale: the format of the text
+	change encironment variables
+
+change the value of the variable:
+export VAR=" "
+
+$path = "executable"
+
+Shell script:
+interpreted language
+shell script 
+python
+executed line by line
+high level
+easier to understand
+
+compiled:
+bytecode
+faster low level
+C,C++
+
+
+#!sh ->shell
+#!bsh ->bash
+#!ksh ->korn shell
+
+standard stream:
+1)input a.sh <
+2)output >
+3)std error >
+4)pipe |
+
+a.sh
+must be changed to executable
+chomod u+x
+
+a.sh < input file
+a.sh 1 2
+use $ sign for accessing the arguement
+
+grep ....|sort....>output file
+
+pipe: redirected output to next command
+
+sed: stream editor
+find pattern in text
+
+grep: find lines contain certain pattern
+grep cannot delete and replace
+
+tr: substitude
+
+wc =l give the number of lines
+head -10 file print the first 10 lines
+tail -10 file print last 10 lines in the file 
+
+if there are only 10 lines in the file 
+head -100 it will only output only 10 liens
+
+sort
+comm
+diff -> patch file git
+
+
+regex
+qualifiers		anchors 		grouping	alteration
++one or more		^ start with		(set/group )	[A B C][A-Z 1-9]
+?zero or one		$ end with				hello/world
+*zero or more-
+previous character
+.one occurence
+
+anchors
+grep
+1. ^google :line start with google
+2. google$ :lien end with google
+3.^google$ :line with just google
+4. goo.*gle :line start with goo_ _ __ _ _ gle
+5. goo*gle : gooooooogle gogle
+6. goo?gle : google gogle
+
+
+
+week3
+coreutils:
+wget url
+gurl url
+
+tar -xvzf 
+
+installing steps:
+configure: check system configuration suitable with the system and then generate the make file
+make: 
+option:
+	target
+all:
+
+op2:
+	gcc 2 files
+make op2
+
+make compile and create executables
+
+make install
+ 
+
+patch:
+output of diff
+files src/a/b/c
+@@
+-
+-
+-
++
++
++
+
+patch -pnum: depth of the number of directory to apply the patch
+
+
+python- 2.7 3
+object
+scripting
+interpreted high level
+
+Sunday ----- sat
+daysofweek = ["Sunday", .... ,"Sat"]
+
+def func():
+
+for i in daysofweek
+	print i
+
+for i in range(len(daysofweek))
+	print i
+
+
+
+
+week4:
+git version control
+svn
+perforce
+
+
+reporsitory:
+files and folder related to the software code 
+full histroy of the software
+
+working copy
+copy of the sofware files in the repository
+
+check-out
+to create the working copy of the repository
+
+check-in.commit
+
+
+blobs
+	sequence of bytes
+
+trees 
+	groups blobs /trees together
+
+commit
+	refers to a particular git commit
+	contains all information about the commit
+
+tags
+	just a named commit object fro convenience
+
+git
+1.init: initialize version control system
+2.clone: git clone copy things in the repository
+3.checkout: get the work and copies
+4.add(.): add change to the file
+5.commit
+6.push: push changes to the remote copy
+7.tag: just the label commands
+8.log: give the entire commit history, all the information 
+9.status: 
+10.diff
+11.show
+12.revert
+13.merge
+14.rebase:rebase will overwritten the history
+15.help
+
+
+week5 
+gdb -> run time error
+	segmentatiion fault: accessing illegal areao of memory
+				threading error
+				dereferencing freed memory
+				stack overflow
+	infinite loop:
+	logical error
+
+-> breakpoints-> fun()
+
+s-> step in
+
+c->continue
+
+
+week 6
+system calls
+
+user mode: appllication called system calls
+
+kernel mode: processor, system resources, memory processor I/O device
+
+1.Process is interrupted
+2.Save the state
+3.Controll is passed to the kernel mode
+4.Verification for the operation
+5.OS perform the requested operation
+6.State will be restored
+7.Continue execution 
+
+To avoid overhead we hae library calls
+
+Library calls-> I/O buffers -> 
+
+Important command:
+gcc
+
+system calls:
+read
+write
+open
+close
+fstat()
+strace
+malloc
+realloc
+
+library implementation:
+getchar
+putchar
+fopen()
+fclose()
+
+strace
+
+
+difference between system call and library calls
+
+week 7.
+Multithreading
+
+difference between:
+multiprocessing: send each task to different processor, time sharing
+multitasking
+wultithreading
+
+difference between task and process
+process can contain multiple thread
+thread can contain multiple process
+thread shares memory
+
+processor communicate using RPC and messaging 
+
+threads need synchronization
+
+true parallellism
+it depends on the number of cores
+
+
+
+
+Main:
+heap: global variables
+
+stack: local variables, return address, function calls
+
+pthread: pthread create()
+	pthread join(): wait for other threads
+
+time -real clock
+	user time app user
+	system total processor time
+
+
+
+
+week 8
+Dynamic linking
+src  (compiler)-> object code (linker)-> executable
+linking and loading
+
+linker:
+static-> compile -> once
+
+Dynamic:
+linked at run time
+
+Dynamic: .so .vdso
+Static: .a
+
+ldd
+
+lib name.so.n 
+n is version number
+
+-fpic position independent code
+-shared 
+-wl, rpath
+
+
+week 9
+ssh
+communication over network
+1.authorization
+2.authentication
+3.confidentiality
+4.data intergrity
+
+difference between ssh and ternet
+symmetric encryption
+1. one
+2. Caesar cipher
+
+
+asymmetric encryption
+1.public key and private key
+
+2.RSA
+
+
+
+Digital signature -pub key
+
+attached signature
+
+detached signature

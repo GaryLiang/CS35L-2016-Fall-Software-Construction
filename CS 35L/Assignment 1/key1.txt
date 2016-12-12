@@ -1,0 +1,115 @@
+1.1
+1. emacs exer1.html ENTER
+2. C-s public
+3. C-s laboratory C-r
+4. C-s self-referential C-r
+5. C-s arrow C-r
+6. C-e
+7. C-a
+8. Did not use arrow keys
+9. Did not use arrow keys
+10. C-x C-c
+
+1.2
+2. C-s <!-- C-a C-k
+3. C-s delete  C-a C-k
+4. C-s wikipedia C-s <!-- C-a C-k
+5. C-s <!-- Left Left Left Del Del Del Del Del Del Del
+   diff -u exer1.html exer2.html >exer2.diff ENTER
+
+
+1.3
+1. emacs exer3.html ENTER
+2.C-s assignment 1 Del 3 7
+  C-s assignment 1 Del 3 7
+3.C-s UTF-8 
+  Del Del Del Del S - A S C I I
+4. C-s </ol> C-a ENTER
+5. C-x C-s C-x C-c
+
+1.4
+1. cat exer2.html exer2.diff >exer4.html ENTER
+2. emacs exer4.html ENTER
+3&4.C-x ] C-r <!-- C-@ C-e M-W 
+  C-x [ C-s laboratory C-y
+
+  C-x ] C-r <!-- C-@ C-e M-W 
+  C-x [ C-s should output only a small number of log lines C-y
+
+  C-x ] C-r <!-- C-@ C-e M-W 
+  C-x [ C-s Homework: Learning C-e ENTER C-y
+
+  C-x ] C-r <!-- C-@ C-e M-W 
+  C-x [ C-s OB C-e ENTER C-y
+
+5. C-@ C-x ] Del
+6. C-x u
+7. <!-- C-x ] -->
+8. ESC < M-X query-replace ENTER <ol> ENTER <Ol> ENTNER space space space space
+9. C-x C-s C-x C-c 
+   diff -u exer1.html exer4.html >exer4.diff
+
+1.5
+1. mkdir junk ENTER
+2. cd junk ENTER
+   touch hello.c
+   emacs hello.c
+3. M-x compile ENTER 
+   Del Del Del Del Del Del Del
+   gcc hello.c ENTER
+4. C-x b hello-out ENTER
+5. C-u M-! ./a.out ENTER
+   #include <stdio.h>
+int
+main (void)
+{
+  char n = '\n';
+  char b = '\\';
+  char q = '"';
+  char const *p = "#include <stdio.h>%cint%cmain (void)%c{%c  
+  char n = '%cn';%c  char b = '%c%c';%c  char q = '%c';%c  char const *p = 
+  %c%s%c;%c  printf (p, n, n, n, n, b, n, b, b, n, q, n, 
+  q, p, q, n, n, n, n);%c  return 0;%c}%c";
+  printf (p, n, n, n, n, b, n, b, b, n, q, n, q, p, q, n, n, n, n);
+  return 0;
+}
+   
+
+1.6
+1. emacs 
+   C-x b ENTER
+2.(random) C-j
+3. (setq x(random)) C-j
+   (setq y(random)) C-j
+4. (* x y) C-j
+   (setq x(random))
+   -407454645627560705
+   (setq y(random))
+   -759900912694765332
+   (* x y)
+   -534622208752590060
+
+   I observed that the answer is not correct
+5. M-:(* x y) ENTER
+   M-: it gives the same result but with two 
+   different numbers in ascii
+
+6. No it doesn't
+   it returns a pseudo-random number
+   it just choose an positive integer and return random numbers between
+   the interval [0, integer)
+   the random number seed is also set by current time and pid
+
+7. Since all integers in lisp are 29 bits' worth on most systems
+   When we do the multiplication, of two random numbers, 
+   the number of bits of the result is
+   the sum of the bits of two random numbers
+   which means the sum of the bits of two numbers cannot exceed 
+   29 bits and it may cause overflow
+   The probability of correctness should be 50%, 
+
+   
+
+
+
+

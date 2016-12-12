@@ -1,0 +1,7 @@
+the subwindow on the top left corner shows the graphical representation of commits and all the branches and merges
+
+the subwindow on the top right corner shows who made commit and when the commit is made
+
+the subwindow on the bottom left corner shows the what exactly has been changed in this commit in the diff form
+
+the subwindow on the bottom right corner shows changelog mostly what files have been changed in that commit
